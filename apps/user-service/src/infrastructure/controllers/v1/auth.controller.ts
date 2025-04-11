@@ -9,12 +9,12 @@ import {
 } from '@nestjs/common';
 
 import { LoginUserDto } from '../../../aplication/dto/login-user.dto';
-import { AuthenticateUserUseCase } from '../../../aplication/use-case/authenticate-user.usecase';
-import { LogoutUserUseCase } from '../../../aplication/use-case/logout-user.usecase';
+import { AuthenticateUserUseCase } from '../../../aplication/use-case/auth/authenticate-user.usecase';
+import { LogoutUserUseCase } from '../../../aplication/use-case/auth/logout-user.usecase';
 import { MessagePattern } from '@nestjs/microservices';
 import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
 import { CurrentUser } from '../../decorators/current-user.decorator';
-import { RefreshTokensUseCase } from 'apps/user-service/src/aplication/use-case/refresh-tokens.usecase';
+import { RefreshTokensUseCase } from 'apps/user-service/src/aplication/use-case/auth/refresh-tokens.usecase';
 import { JwtRefreshGuard } from '../../guards/jwt-refresh.guard';
 
 @Controller({ path: 'auth', version: '1' })
