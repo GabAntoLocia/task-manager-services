@@ -1,0 +1,15 @@
+import { User } from '../../domain/entities/user.entity';
+
+export class UserResponseDto {
+  id: string;
+  name: string;
+  email: string;
+  createdAt: Date;
+
+  constructor(user: User) {
+    this.id = user.id;
+    this.name = user.name;
+    this.email = user.email;
+    this.createdAt = user.createdAt;
+  }
+}
