@@ -57,7 +57,10 @@ JWT_SECRET=tu_secreto_jwt
     #o
     yarn install
     ```
-
+ 3. Hacer la build: 
+    - npm run build : para api-gateway (task-manager-services)
+    - npm run build task-service : para microservice (task-service)
+    - npm run build user-service : para microservice (user-service)
 
    ▶️ Opción 1: Comando Directo
         
@@ -65,12 +68,12 @@ JWT_SECRET=tu_secreto_jwt
     pm2 start app.js --name "mi-app" --watch
 ``` 
     
-*(Reemplaza app.js por tu archivo de entrada principal ej. apps/task-manager-service/main.ts)*
+*(Reemplaza app.js por tu archivo de entrada principal ej. pm2 start .\dist\apps\task-manager-services\main.js --name "task-service" --watch)*
 
 
 ▶️ Opción 2: Usando ecosystem.config.js (Recomendado)
     
-1. Crear archivo de configuración (si no existe):
+1. Crear archivo de configuración (si no existe - está en la raíz)  :
 
 ```bash
     pm2 init simple
