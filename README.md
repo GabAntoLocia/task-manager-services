@@ -48,7 +48,7 @@ JWT_SECRET=tu_secreto_jwt
 1. Clonar el repositorio:
 
    ```bash
-   git clone [URL_DEL_REPOSITORIO]
+   git clone [https://github.com/GabAntoLocia/task-manager-services.git]
     ```
 
  2. Instalar dependencias:
