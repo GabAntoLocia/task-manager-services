@@ -1,3 +1,195 @@
+# API Gateway + Microservicios (User & Task)
+
+Este proyecto consiste en un **API Gateway** que gestiona dos microservicios:
+- **User Service**: Maneja autenticación (`auth`) y perfiles de usuario (`user`).
+- **Task Service**: Gestiona tareas con operaciones CRUD.
+
+![Arquitectura Microservicios](./arquitectura.jpeg)
+
+## 🚀 Tecnologías
+- **NestJS** (API Gateway y microservicios)
+- **Docker** + **Docker Compose** (Contenedorización)
+- **PostgreSQL** (Base de datos)
+- **Prisma** (ORM)
+- **Swagger** (Documentación API)
+- **JWT** (Autenticación)
+
+---
+
+## 📋 Requisitos
+- Docker ([Instalación](https://docs.docker.com/get-docker/))
+- Docker Compose
+- Node.js v18+
+- npm o yarn
+
+---
+
+## 🔧 Configuración
+
+### 1. Variables de entorno
+Crea un archivo `.env` en la raíz del proyecto basado en `.env.example`:
+```bash
+cp .env.example .env 
+```
+Edita el .env con tus valores:
+
+## PostgreSQL
+    POSTGRES_USER=tu_usuario
+    POSTGRES_PASSWORD=tu_contraseña
+    POSTGRES_DB=task_manager
+    DATABASE_URL_USER=bd_url
+    DATABASE_URL_TASK=bd_url
+
+## JWT
+
+JWT_SECRET=tu_secreto_jwt
+
+## 🛠 Instalación
+1. Clonar el repositorio:
+
+   ```bash
+   git clone [URL_DEL_REPOSITORIO]
+    ```
+
+ 2. Instalar dependencias:
+     ```bash 
+    npm install
+    #o
+    yarn install
+    ```
+
+
+   ▶️ Opción 1: Comando Directo
+        
+```bash
+    pm2 start app.js --name "mi-app" --watch
+``` 
+    
+*(Reemplaza app.js por tu archivo de entrada principal ej. apps/task-manager-service/main.ts)*
+
+
+▶️ Opción 2: Usando ecosystem.config.js (Recomendado)
+    
+1. Crear archivo de configuración (si no existe):
+
+```bash
+    pm2 init simple
+
+```
+
+Editar el archivo generado (ecosystem.config.js):
+
+    module.exports = 
+    {
+      apps: [
+        {
+          name: "api-gateway",
+          script: "./dist/apps/task-manager-services/main.js", // Ruta relativa desde la raíz
+          cwd: "./", // Directorio de trabajo
+          watch: ["apps/api-gateway"],
+          env: {
+            NODE_ENV: "development"
+          }
+        },
+        {
+          name: "user-service",
+          script: "./dist/apps/user-service/main.js",
+          watch: ["apps/user-service"]
+        },
+        {
+          name: "task-service",
+          script: "./dist/apps/task-service/main.js",
+          watch: ["apps/task-service"]
+        }
+          ]
+      };
+
+ 2. Iniciar:
+```bash
+    pm2 start ecosystem.config.js
+```
+
+🔄 Comandos Útiles de PM2
+
+
+| Comando | Descripción |
+|---------|-------------|
+| `pm2 list` | Listar procesos activos |
+| `pm2 logs` | Mostrar logs en tiempo real |
+| `pm2 restart mi-app` | Reiniciar la aplicación |
+| `pm2 stop mi-app` | Detener la aplicación |
+| `pm2 delete mi-app` | Eliminar la aplicación de PM2 |
+| `pm2 save` | Guardar procesos para inicio automático |
+| `pm2 startup` | Configurar inicio con el sistema |
+| `pm2 monit` | Interfaz de monitoreo local |
+| `pm2 plus` | Acceder al dashboard en la nube (PM2 Plus) |
+
+## Monitoreo
+
+- **Interfaz local**:  
+  
+  ```bash
+    pm2 monit
+  
+* **Dashboard en la nube (PM2 Plus)**:
+
+    ```bash
+      pm2 plus
+    ```
+## Acceder a la documentación 📄
+La interfaz **Swagger UI** estará disponible en:
+
+```bash
+    http://localhost:3000/api-docs
+```
+## 3. Endpoints documentados
+
+  Verás estas secciones organizadas:
+
+- Auth: Endpoints de autenticación
+
+    - /auth/register (POST)
+
+    - /auth/login (POST)
+
+    - /auth/logout (POST)
+
+- Users:
+
+    - /users/profile (GET)
+
+- Tasks:
+
+    - /task/create (POST)
+
+    - /task/getAll (GET)
+
+    - /task/update/{id} (PUT)
+
+    - /task/delete/{id} (DELETE)
+
+
+
+## 4. Probar endpoints directamente
+  En Swagger UI puedes:
+
+- Hacer clic en cualquier endpoint
+
+- Seleccionar "Try it out"
+
+- Introducir datos de prueba
+
+- Ejecutar con "Execute"
+```
+## 🧪 Colección de Postman
+
+```
+Puedes descargar y usar la colección de Postman para probar los endpoints de la API:
+
+👉 [Descargar colección Postman](./postman/mi-coleccion.postman_collection.json)
+
+
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
@@ -22,78 +214,3 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Project setup
-
-```bash
-$ npm install
-```
-
-## Compile and run the project
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
-## Run tests
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ npm install -g mau
-$ mau deploy
-```
-
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
-
-## Resources
-
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
