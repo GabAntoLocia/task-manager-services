@@ -1,0 +1,43 @@
+## Directorios ##
+node_modules/
+dist/
+coverage/
+.nyc_output/
+
+## Archivos de configuración ##
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+## IDE y herramientas de desarrollo ##
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+## Sistema y version control ##
+.git/
+.gitignore
+.DS_Store
+*.orig
+.temp/
+dump.rdb
+
+## Docker específico ##
+Dockerfile
+docker-compose*.yml
+.dockerignore
+
+## Archivos de documentación ##
+**/*.md
+**/*.txt
+LICENSE

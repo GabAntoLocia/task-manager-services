@@ -1,0 +1,106 @@
+
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:15
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports: ["5432:5432"]
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -h postgres"]
+      interval: 5s
+      timeout: 10s
+      retries: 30
+    networks:
+      - app-network
+
+  api-gateway:
+    container_name: task-manager-services
+    build:
+      context: .
+      dockerfile: apps/task-manager-services/Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+      USER_SERVICE_URL: http://user-service:3001
+      TASK_SERVICE_URL: http://task-service:3002
+      JWT_SECRET: ${JWT_SECRET}
+    depends_on:
+      - user-service
+      - task-service
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  user-service:
+    container_name: user-service
+    build:
+      context: .
+      dockerfile: apps/user-service/Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      DATABASE_URL_USER: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?schema=user"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    command: >
+      sh -c "while ! nc -z postgres 5432; do sleep 2; done;
+      npx prisma generate;
+      npx prisma migrate deploy;
+      node dist/main.js"
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/health"]
+      interval: 5s
+      timeout: 10s
+      retries: 30
+      start_period: 30s
+
+  task-service:
+    container_name: task-service
+    build:
+      context: .
+      dockerfile: apps/task-service/Dockerfile
+    ports:
+      - "3002:3002"
+    environment:
+      DATABASE_URL_TASK: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?schema=task"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    command: >
+      sh -c "while ! nc -z postgres 5432; do sleep 2; done;
+      npx prisma generate;
+      npx prisma migrate deploy;
+      node dist/main.js"
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3002/health"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
+
+volumes:
+  pgdata:
+
+networks:
+  app-network:
+    driver: bridge
