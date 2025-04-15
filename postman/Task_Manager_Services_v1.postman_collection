@@ -3,7 +3,7 @@
 		"_postman_id": "ad824881-abd7-49b6-8862-9b598f123695",
 		"name": "Equinox API Gateway v1",
 		"description": "Colección para probar todos los endpoints de la API v1 a través del API Gateway",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
 		"_exporter_id": "16596574"
 	},
 	"item": [
@@ -22,22 +22,27 @@
 						],
 						"body": {
 							"mode": "raw",
+							"raw": "{\n  \"name\": \"nuevo_usuario\",\n  \"email\": \"usuario@example7.com\",\n  \"password\": \"P@ssw0rd123!\"\n}"
+						},
+						"url": "http://localhost:3000/v1/api/auth/register"
+					},
+					"response": []
+				},
+				{
+					"name": "Registro de Usuario Copy",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
 							"raw": "{\n  \"username\": \"nuevo_usuario\",\n  \"email\": \"usuario@example.com\",\n  \"password\": \"P@ssw0rd123!\"\n}"
 						},
-						"url": {
-							"raw": "http://localhost:3000/api/v1/auth/register",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"v1",
-								"auth",
-								"register"
-							]
-						}
+						"url": "http://localhost:3000/api/v1/auth/register"
 					},
 					"response": []
 				},
@@ -53,22 +58,9 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"email\": \"usuario@example.com\",\n  \"password\": \"P@ssw0rd123!\"\n}"
+							"raw": "{\n  \"email\": \"usuario@example7.com\",\n  \"password\": \"P@ssw0rd123!\"\n}"
 						},
-						"url": {
-							"raw": "http://localhost:3000/api/v1/auth/login",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"v1",
-								"auth",
-								"login"
-							]
-						}
+						"url": "http://localhost:3000/v1/api/auth/login"
 					},
 					"response": []
 				},
@@ -90,20 +82,7 @@
 							"mode": "raw",
 							"raw": "{\n  \"refreshToken\": \"{{refresh_token}}\"\n}"
 						},
-						"url": {
-							"raw": "http://localhost:3000/api/v1/auth/refresh",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"v1",
-								"auth",
-								"refresh"
-							]
-						}
+						"url": "http://localhost:3000/api/v1/auth/refresh"
 					},
 					"response": []
 				},
@@ -117,20 +96,7 @@
 								"value": "Bearer {{access_token}}"
 							}
 						],
-						"url": {
-							"raw": "http://localhost:3000/api/v1/auth/logout",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"v1",
-								"auth",
-								"logout"
-							]
-						}
+						"url": "http://localhost:3000/v1/api/auth/logout"
 					},
 					"response": []
 				}
@@ -149,24 +115,15 @@
 								"value": "Bearer {{access_token}}"
 							}
 						],
-						"url": {
-							"raw": "http://localhost:3000/api/v1/users",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"v1",
-								"users"
-							]
-						}
+						"url": "http://localhost:3000/api/v1/users"
 					},
 					"response": []
 				},
 				{
 					"name": "Obtener Perfil",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [
@@ -175,20 +132,16 @@
 								"value": "Bearer {{access_token}}"
 							}
 						],
-						"url": {
-							"raw": "http://localhost:3000/api/v1/users/profile",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"v1",
-								"users",
-								"profile"
-							]
-						}
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/v1/api/users/profile"
 					},
 					"response": []
 				}
@@ -213,21 +166,9 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"title\": \"Implementar API Gateway v1\",\n  \"description\": \"Terminar la implementación del gateway con versionado\",\n  \"priority\": \"HIGH\"\n}"
+							"raw": "{\n  \"title\": \"Implementar API Gateway v1\",\n  \"description\": \"Terminar la implementación del gateway con versionado\",\n  \"priority\": \"HIGH\",\n  \"status\": \"PENDING\"\n}"
 						},
-						"url": {
-							"raw": "http://localhost:3000/api/v1/tasks",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"v1",
-								"tasks"
-							]
-						}
+						"url": "http://localhost:3000/v1/api/task/create"
 					},
 					"response": []
 				},
@@ -242,7 +183,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:3000/v1/api/tasks/getAll?page=1&limit=10",
+							"raw": "http://localhost:3000/v1/api/task/getAll?page=1&limit=20",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -251,7 +192,7 @@
 							"path": [
 								"v1",
 								"api",
-								"tasks",
+								"task",
 								"getAll"
 							],
 							"query": [
@@ -261,7 +202,7 @@
 								},
 								{
 									"key": "limit",
-									"value": "10"
+									"value": "20"
 								}
 							]
 						}
@@ -284,22 +225,9 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"title\": \"API Gateway v1 actualizado\",\n  \"status\": \"COMPLETED\"\n}"
+							"raw": "{\n  \"title\": \"API Gateway v1 actualizado 2\",\n  \"status\": \"COMPLETED\"\n}"
 						},
-						"url": {
-							"raw": "http://localhost:3000/api/v1/tasks/550e8400-e29b-41d4-a716-446655440000",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"v1",
-								"tasks",
-								"550e8400-e29b-41d4-a716-446655440000"
-							]
-						}
+						"url": "http://localhost:3000/v1/api/task/update/c3ef57a6-9e5c-4f72-b1ee-b9621fa54de2"
 					},
 					"response": []
 				},
@@ -313,20 +241,7 @@
 								"value": "Bearer {{access_token}}"
 							}
 						],
-						"url": {
-							"raw": "http://localhost:3000/api/v1/tasks/550e8400-e29b-41d4-a716-446655440000",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"v1",
-								"tasks",
-								"550e8400-e29b-41d4-a716-446655440000"
-							]
-						}
+						"url": "http://localhost:3000/v1/api/task/delete/c3ef57a6-9e5c-4f72-b1ee-b9621fa54de2"
 					},
 					"response": []
 				}
